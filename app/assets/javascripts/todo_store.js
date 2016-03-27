@@ -19,7 +19,6 @@ TodoStore = {
       method: "GET",
       dataType: "JSON",
       success: function(data){
-        console.log("success!");
         console.log(data);
         data.forEach(function (todo) {
           _todos[todo.id] = todo;
@@ -46,7 +45,6 @@ TodoStore = {
     })
   },
   delete: function (id) {
-    var that = this;
     if(_todos[id]){
       $.ajax({
         url: window.location.origin + "/api/todos/" + id,
@@ -61,7 +59,28 @@ TodoStore = {
         }
       })
     }
+  },
+  toggleDone: function(id){
+    if(_todos[id]){
+      var newDoneState = !_todos[id]["done"];
+      var toggleParams = {"todos[done]":newDoneState};
+      var asdfasd = "asdfasd";
+      $.ajax({
+        url: window.location.origin + "/api/todos/" + id,
+        method: "PATCH",
+        dataType: "json",
+        data: toggleParams,
+        success: function (data) {
+          _todos[data.id]["done"] = data["done"];
+          TodoStore.changed();
+        },
+        error: function (data) {
+          console.log(data);
+        }
+      })
+    }
   }
+
 };
 
 _callbacks = [];
