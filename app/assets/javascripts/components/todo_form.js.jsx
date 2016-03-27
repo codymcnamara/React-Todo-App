@@ -15,9 +15,9 @@ var TodoForm = React.createClass({
       "todos[body]":this.state.body,
       "todos[done]":false
     }
+    TodoStore.addChangedHandler(this.props.todosChanged);
     TodoStore.create(todo);
     this.setState({title: "", body: ""});
-    TodoStore.addChangedHandler(this.props.todosChanged);
   },
   render: function () {
     return(
