@@ -11,7 +11,6 @@ TodoStore = {
     _callbacks.push(newCallback);
   },
   all: function(){
-    console.log(_todos);
     return _todos;
   },
   fetch: function(){

@@ -16,13 +16,13 @@ var TodoList = React.createClass({
     var that = this;
     var titles = Object.keys(this.state.allTodos).map(function (key) {
       var todo = that.state.allTodos[key];
-
-      return <TodoListItem todoItem={todo} />
+      return <TodoListItem key={key} todoItem={todo} />
     })
 
     return(
       <div>
         {titles}
+        <TodoForm todosChanged={this.todosChanged}/>
       </div>
     );
   }
@@ -31,8 +31,8 @@ var TodoList = React.createClass({
 var TodoListItem = React.createClass({
   render:function () {
     return (
-      <div>
-        <div>{this.props.todoItem.title}</div>
+      <div className="todo">
+        <div className="todo_title">{this.props.todoItem.title} </div>
         <div>{this.props.todoItem.body}</div>
       </div>
     );
