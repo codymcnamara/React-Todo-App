@@ -4,12 +4,16 @@
 
 
 .todo{
-  margin: 10px 0;
+  margin: 20px 0;
 }
 
 .todo_title{
   font-weight: bold;
+  &:hover{
+    cursor: pointer;
+  }
 }
+
 form{
   margin: 20px;
 }

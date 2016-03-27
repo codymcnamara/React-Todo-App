@@ -19,7 +19,6 @@ TodoStore = {
       method: "GET",
       dataType: "JSON",
       success: function(data){
-        console.log(data);
         data.forEach(function (todo) {
           _todos[todo.id] = todo;
         });

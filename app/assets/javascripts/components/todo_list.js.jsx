@@ -29,17 +29,48 @@ var TodoList = React.createClass({
 });
 
 var TodoListItem = React.createClass({
-  handleDestroy: function () {
-    TodoStore.addChangedHandler(this.props.todosChanged);
-    TodoStore.delete(this.props.todoItem.id);
+  getInitialState:function () {
+    return ({displayDetail: false});
+  },
+  toggleDetailDisplay: function () {
+    this.setState({displayDetail: !this.state.displayDetail});
   },
   render:function () {
+    if (this.state.displayDetail) {
+      var detailView = <TodoDetailView
+        todo={this.props.todoItem}
+        todosChanged={this.props.todosChanged}
+        displayDetail={this.state.displayDetail}
+      />
+    } else {
+      var detailView = <div></div>
+    }
+
     return (
       <div className="todo">
-        <div className="todo_title">{this.props.todoItem.title} </div>
-        <div>{this.props.todoItem.body}</div>
+        <div className="todo_title" onClick={this.toggleDetailDisplay}>
+          {this.props.todoItem.title}
+        </div>
+        <DoneButton
+          todo={this.props.todoItem}
+          todosChanged={this.props.todosChanged}
+        />
+        {detailView}
+      </div>
+    );
+  }
+})
+
+var TodoDetailView = React.createClass({
+  handleDestroy: function () {
+    TodoStore.addChangedHandler(this.props.todosChanged);
+    TodoStore.delete(this.props.todo.id);
+  },
+  render: function () {
+    return (
+      <div>
+        <div>{this.props.todo.body}</div>
         <button onClick={this.handleDestroy}>Delete</button>
-        <DoneButton todo={this.props.todoItem} todosChanged={this.props.todosChanged}/>
       </div>
     );
   }
