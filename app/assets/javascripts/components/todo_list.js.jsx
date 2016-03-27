@@ -16,15 +16,25 @@ var TodoList = React.createClass({
     var that = this;
     var titles = Object.keys(this.state.allTodos).map(function (key) {
       var todo = that.state.allTodos[key];
-      return <li key={todo.id}>{todo.title}</li>
+
+      return <TodoListItem todoItem={todo} />
     })
 
     return(
       <div>
-        <ul>
-          {titles}
-        </ul>
+        {titles}
       </div>
     );
   }
 });
+
+var TodoListItem = React.createClass({
+  render:function () {
+    return (
+      <div>
+        <div>{this.props.todoItem.title}</div>
+        <div>{this.props.todoItem.body}</div>
+      </div>
+    );
+  }
+})
