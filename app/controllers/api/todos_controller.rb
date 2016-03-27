@@ -20,8 +20,10 @@ class Api::TodosController < ApplicationController
   def destroy
     @todo = Todo.find(params[:id])
     @todo.destroy!
-    # redirect_to todos_url
-    render json: "[{msg: it has been destroyed, mwahahahaha}]"
+
+    # rendering text instead of json since jquery not allowing sucess callback
+    # for 'delete' request
+    render text: params[:id].to_s
   end
 
   def update

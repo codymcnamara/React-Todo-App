@@ -29,6 +29,38 @@ TodoStore = {
         console.log(data);
       }
     })
+  },
+  create: function(todo){
+    $.ajax({
+      url: window.location.origin + "/api/todos",
+      method: "POST",
+      dataType: "JSON",
+      data: todo,
+      success: function (data) {
+        _todos[data.id] = data;
+        TodoStore.changed();
+      },
+      error: function (data) {
+        console.log(data);
+      }
+    })
+  },
+  delete: function (id) {
+    var that = this;
+    if(_todos[id]){
+      $.ajax({
+        url: window.location.origin + "/api/todos/" + id,
+        method: "DELETE",
+        dataType: "text",
+        success: function (id_string) {
+          delete _todos[parseInt(id_string)];
+          TodoStore.changed();
+        },
+        error: function (data) {
+          console.log(data);
+        }
+      })
+    }
   }
 };
 
