@@ -12,6 +12,7 @@ TodoStore = {
   },
   all: function(){
     console.log(_todos);
+    return _todos;
   },
   fetch: function(){
     $.ajax({
@@ -22,7 +23,8 @@ TodoStore = {
         console.log(data);
         data.forEach(function (todo) {
           _todos[todo.id] = todo;
-        })
+        });
+        TodoStore.changed();
       },
       error: function (data) {
         console.log(data);
@@ -64,7 +66,6 @@ TodoStore = {
     if(_todos[id]){
       var newDoneState = !_todos[id]["done"];
       var toggleParams = {"todos[done]":newDoneState};
-      var asdfasd = "asdfasd";
       $.ajax({
         url: window.location.origin + "/api/todos/" + id,
         method: "PATCH",
