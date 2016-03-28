@@ -18,11 +18,9 @@ class Api::StepsController < ApplicationController
 
   def destroy
     @step = Step.find(params[:id])
+    todo_id = @step.todo_id
     @step.destroy!
-
-    # rendering text instead of json since jquery not allowing
-    # sucess callback for 'delete' request
-    render text: params[:id].to_s
+    render json: { 'step_id' => params[:id],  "todo_id" => todo_id}
   end
 
   def update

@@ -36,6 +36,22 @@ StepStore = {
         console.log(data);
       }
     })
+  },
+  destroy: function (step) {
+    if(_steps[step.todo_id][step.id]){
+      $.ajax({
+        url: window.location.origin + "/api/steps/" + step.id,
+        method: "DELETE",
+        dataType: "json",
+        success: function (ids) {
+          delete _steps[ids.todo_id][ids.step_id];
+          TodoStore.changed();
+        },
+        error: function (data) {
+          console.log(data);
+        }
+      })
+    }
   }
 
 }

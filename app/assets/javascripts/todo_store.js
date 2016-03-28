@@ -50,9 +50,9 @@ TodoStore = {
       $.ajax({
         url: window.location.origin + "/api/todos/" + id,
         method: "DELETE",
-        dataType: "text",
-        success: function (id_string) {
-          delete _todos[parseInt(id_string)];
+        dataType: "json",
+        success: function (data) {
+          delete _todos[data.id];
           TodoStore.changed();
         },
         error: function (data) {
