@@ -21,18 +21,21 @@ var TodoForm = React.createClass({
   },
   render: function () {
     return(
-      <form onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          value={this.state.title}
-          onChange={this.updateTitle}
-        />
-        <textarea
-          value={this.state.body}
-          onChange={this.updateBody}
-        />
-        <input type="submit" value="post"/>
-      </form>
+      <div>
+        <h2>Create a new Todo</h2>
+        <form onSubmit={this.handleSubmit}>
+          <input
+            type="text"
+            value={this.state.title}
+            onChange={this.updateTitle}
+          />
+          <textarea
+            value={this.state.body}
+            onChange={this.updateBody}
+          />
+          <input type="submit" value="post"/>
+        </form>
+      </div>
     );
   }
 })
