@@ -1,4 +1,5 @@
 // console.log("running todo_story.js");
+
 TodoStore = {
   changed: function(){
     while( _callbacks.length > 0 ){

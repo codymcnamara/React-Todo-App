@@ -1,6 +1,6 @@
 class Api::TodosController < ApplicationController
   # added this for degbugging with postman
-  # skip_before_filter :verify_authenticity_token
+  #skip_before_filter :verify_authenticity_token
 
   def index
     @todos = Todo.all
