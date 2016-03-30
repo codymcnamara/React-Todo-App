@@ -52,8 +52,8 @@ var TodoListItem = React.createClass({
           {this.props.todoItem.title}
         </div>
         <DoneButton
-          todo={this.props.todoItem}
-          todosChanged={this.props.todosChanged}
+          item={this.props.todoItem}
+          collectionChanged={this.props.todosChanged}
         />
         {detailView}
       </div>
@@ -105,11 +105,15 @@ var TodoDetailView = React.createClass({
 
 var DoneButton = React.createClass({
   handleDone: function () {
-    TodoStore.addChangedHandler(this.props.todosChanged);
-    TodoStore.toggleDone(this.props.todo.id);
+    TodoStore.addChangedHandler(this.props.collectionChanged);
+    if(this.props.item.todo_id){
+      StepStore.toggleDone(this.props.item);
+    } else {
+      TodoStore.toggleDone(this.props.item.id);
+    }
   },
   render: function () {
-    var buttonText = this.props.todo.done ? "Undo" : "Done";
+    var buttonText = this.props.item.done ? "Undo" : "Done";
 
     return(<button onClick={this.handleDone}>{buttonText}</button>)
   }
@@ -117,10 +121,13 @@ var DoneButton = React.createClass({
 
 var Step = React.createClass({
   render: function () {
-
     return(
       <li >
         {this.props.step.body}
+        <DoneButton
+          item={this.props.step}
+          collectionChanged={this.props.stepsChanged}
+        />
       </li>
     );
   }
