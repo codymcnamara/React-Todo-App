@@ -4,11 +4,14 @@
 
 
 .todo{
-  margin: 20px 0;
+  margin: 20px;
+  padding: 10px;
+  border: 1px solid;
 }
 
 .todo_title{
   font-weight: bold;
+  text-align: center;
   &:hover{
     cursor: pointer;
   }

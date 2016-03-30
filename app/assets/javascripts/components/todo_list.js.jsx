@@ -62,15 +62,42 @@ var TodoListItem = React.createClass({
 })
 
 var TodoDetailView = React.createClass({
+  getInitialState: function () {
+    if (StepStore.all(this.props.todo.id)){
+      var intialStateSteps = StepStore.all(this.props.todo.id);
+    }else{
+      var intialStateSteps ={};
+    }
+    return ({allSteps: intialStateSteps})
+  },
   handleDestroy: function () {
     TodoStore.addChangedHandler(this.props.todosChanged);
     TodoStore.delete(this.props.todo.id);
   },
+  componentDidMount: function () {
+    TodoStore.addChangedHandler(this.stepsChanged);
+    StepStore.fetch(this.props.todo.id);
+  },
+  stepsChanged: function () {
+    if(StepStore.all(this.props.todo.id)){
+      this.setState ({allSteps: StepStore.all(this.props.todo.id)})
+    }
+  },
   render: function () {
+    var that = this;
+    var stepComponents = Object.keys(this.state.allSteps).map(function (id) {
+      var step = that.state.allSteps[id];
+      return <Step step={step} stepsChanged={that.stepsChanged} key={step.id}/>
+    });
+
     return (
       <div>
         <div>{this.props.todo.body}</div>
-        <button onClick={this.handleDestroy}>Delete</button>
+        <h4>Steps:</h4>
+        <ol>
+          {stepComponents}
+        </ol>
+        <button onClick={this.handleDestroy}>Delete Todo</button>
       </div>
     );
   }
@@ -85,5 +112,16 @@ var DoneButton = React.createClass({
     var buttonText = this.props.todo.done ? "Undo" : "Done";
 
     return(<button onClick={this.handleDone}>{buttonText}</button>)
+  }
+})
+
+var Step = React.createClass({
+  render: function () {
+
+    return(
+      <li >
+        {this.props.step.body}
+      </li>
+    );
   }
 })

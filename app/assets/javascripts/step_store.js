@@ -8,10 +8,12 @@ StepStore = {
       method: "get",
       dataType: "json",
       success: function(data) {
-        _steps[data[0]["todo_id"]] = {};
-        data.forEach(function (step) {
-          _steps[step.todo_id][step.id] = step;
-        });
+        if (data.length > 0){
+          _steps[data[0]["todo_id"]] = {};
+          data.forEach(function (step) {
+            _steps[step.todo_id][step.id] = step;
+          });
+        }
         TodoStore.changed();
       },
       error: function (data) {
@@ -45,6 +47,25 @@ StepStore = {
         dataType: "json",
         success: function (ids) {
           delete _steps[ids.todo_id][ids.step_id];
+          TodoStore.changed();
+        },
+        error: function (data) {
+          console.log(data);
+        }
+      })
+    }
+  },
+  toggleDone: function(step){
+    if(_steps[step.todo_id][step.id]){
+      var newDoneState = !_steps[step.todo_id][step.id]["done"];
+      var toggleParams = {"steps[done]":newDoneState};
+      $.ajax({
+        url: window.location.origin + "/api/steps/" + step.id,
+        method: "PATCH",
+        dataType: "json",
+        data: toggleParams,
+        success: function (data) {
+          _steps[data.todo_id][data.id]["done"] = data["done"];
           TodoStore.changed();
         },
         error: function (data) {
