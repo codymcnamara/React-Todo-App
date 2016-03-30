@@ -124,6 +124,10 @@ var DoneButton = React.createClass({
 })
 
 var Step = React.createClass({
+  handleDestroy: function () {
+    TodoStore.addChangedHandler(this.props.stepsChanged);
+    StepStore.destroy(this.props.step);
+  },
   render: function () {
     return(
       <li >
@@ -132,6 +136,7 @@ var Step = React.createClass({
           item={this.props.step}
           collectionChanged={this.props.stepsChanged}
         />
+        <button onClick={this.handleDestroy}>Delete </button>
       </li>
     );
   }
