@@ -26,10 +26,12 @@ var TodoForm = React.createClass({
         <form onSubmit={this.handleSubmit}>
           <input
             type="text"
+            placeholder="title"
             value={this.state.title}
             onChange={this.updateTitle}
           />
           <textarea
+            placeholder="body"
             value={this.state.body}
             onChange={this.updateBody}
           />

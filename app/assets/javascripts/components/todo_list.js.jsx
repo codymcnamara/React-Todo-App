@@ -97,6 +97,10 @@ var TodoDetailView = React.createClass({
         <ol>
           {stepComponents}
         </ol>
+        <StepForm
+          todoid={this.props.todo.id}
+          stepsChanged={this.stepsChanged}
+        />
         <button onClick={this.handleDestroy}>Delete Todo</button>
       </div>
     );
@@ -130,5 +134,43 @@ var Step = React.createClass({
         />
       </li>
     );
+  }
+})
+
+
+var StepForm = React.createClass({
+  getInitialState: function () {
+    return({body: ""})
+  },
+  updateBody: function (e) {
+    this.setState({body: e.target.value})
+  },
+  handleSubmit: function (e) {
+    e.preventDefault();
+    var stepParams = {
+      "steps[done]": false,
+      "steps[body]": this.state.body,
+      "steps[todo_id]": this.props.todoid
+    }
+    TodoStore.addChangedHandler(this.props.stepsChanged);
+    StepStore.create(stepParams);
+    this.setState({body: ""});
+  },
+  render: function () {
+
+    return(
+      <div>
+        <div>Create a new Step: </div>
+        <form onSubmit={this.handleSubmit}>
+          <textarea
+            value={this.state.body}
+            placeholder="type step here"
+            onChange={this.updateBody}
+          />
+          <input type="submit" value="Create Step"/>
+        </form>
+      </div>
+    );
+
   }
 })
